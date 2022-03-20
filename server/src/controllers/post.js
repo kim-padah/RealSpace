@@ -5,6 +5,7 @@ const Joi = require('joi');
 
 const checkObjectId = (req, res, next) => {
   const { id } = req.params;
+
   if (!ObjectId.isValid(id)) {
     res.status(400).end();
     return;
@@ -13,7 +14,21 @@ const checkObjectId = (req, res, next) => {
 };
 
 const write = async (req, res) => {
-  const { title, body, tags, images } = req.body;
+  const schema = Joi.object().keys({
+    title: Joi.string().required(),
+    body: Joi.string().required(),
+    images: Joi.array().items(Joi.string()),
+    tags: Joi.array().items(Joi.string()),
+  });
+
+  const result = schema.validate(req.body);
+  if (result.error) {
+    res.status(400).send(result.error);
+    return;
+  }
+
+  const { title, body, images, tags } = req.body;
+
   const post = new Post({
     title,
     body,
@@ -39,6 +54,7 @@ const list = async (req, res) => {
 
 const read = async (req, res) => {
   const { id } = req.params;
+
   try {
     const post = await Post.findById(id).exec();
     //왜이거 404가안뜨지....end()를 붙여줘야함
@@ -54,6 +70,7 @@ const read = async (req, res) => {
 
 const remove = async (req, res) => {
   const { id } = req.params;
+
   try {
     await Post.findByIdAndRemove(id).exec();
     res.status(204).end(); // No Content(success but no need to send res)
@@ -64,6 +81,20 @@ const remove = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } = req.params;
+
+  const schema = Joi.object().keys({
+    title: Joi.string(),
+    body: Joi.string(),
+    images: Joi.array().items(Joi.string()),
+    tags: Joi.array().items(Joi.string()),
+  });
+
+  const result = schema.validate(req.body);
+  if (result.error) {
+    res.status(400).send(result.error);
+    return;
+  }
+
   try {
     const post = await Post.findByIdAndUpdate(id, req.body, {
       new: true, //return updated data
