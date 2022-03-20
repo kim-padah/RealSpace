@@ -17,6 +17,7 @@ const write = async (req, res) => {
   const schema = Joi.object().keys({
     title: Joi.string().required(),
     body: Joi.string().required(),
+    thumbnail: Joi.string(),
     images: Joi.array().items(Joi.string()),
     tags: Joi.array().items(Joi.string()),
   });
@@ -45,7 +46,7 @@ const write = async (req, res) => {
 
 const list = async (req, res) => {
   try {
-    const posts = await Post.find().exec();
+    const posts = await Post.find().sort({ _id: -1 }).exec();
     res.status(200).send(posts);
   } catch (e) {
     res.status(500).send(e);
@@ -85,6 +86,7 @@ const update = async (req, res) => {
   const schema = Joi.object().keys({
     title: Joi.string(),
     body: Joi.string(),
+    thumbnail: Joi.string(),
     images: Joi.array().items(Joi.string()),
     tags: Joi.array().items(Joi.string()),
   });
