@@ -67,8 +67,14 @@ const write = async (req, res) => {
 };
 
 const list = async (req, res) => {
+  const { tag, username } = req.query;
+  const query = {
+    ...(username ? { 'user.username': username } : {}),
+    ...(tag ? { tags: tag } : {}),
+  };
+
   try {
-    const posts = await Post.find().sort({ _id: -1 }).exec();
+    const posts = await Post.find(query).sort({ _id: -1 }).exec();
     res.status(200).send(posts);
   } catch (e) {
     res.status(500).send(e);
