@@ -1,11 +1,11 @@
-import React from 'react';
+import Button from '../components/common/Button';
 
 function PostListPage() {
-    return (
-        <div>
-            포스트 리스트
-        </div>
-    );
+  return (
+    <div>
+      <Button>button</Button>
+    </div>
+  );
 }
 
 export default PostListPage;
