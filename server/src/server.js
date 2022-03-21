@@ -2,17 +2,20 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const rootRouter = require('./routers');
+const jwtAuthMiddleware = require('./lib/jwtAuthMiddleware');
 
 const { PORT, MONGO_URI } = process.env;
 
 const app = express();
-const cors = require('cors');
-const logger = morgan('dev');
 
-app.use(logger);
-app.use(express.json()); //data auto parsing to json-format
+app.use(morgan('dev')); //logger
+app.use(express.json()); //built in body-parser:data parsing to json
+app.use(cookieParser());
+app.use(jwtAuthMiddleware);
 app.use(cors());
 
 //db
