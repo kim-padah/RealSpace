@@ -6,11 +6,12 @@ const jwtAuthMiddleware = async (req, res, next) => {
   if (!token) return next();
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req._id = decoded._id;
-    req.username = decoded.username;
-    req.nickname = decoded.nickname;
-    req.adminCode = decoded.adminCode;
-
+    req.user = {
+      _id: decoded._id,
+      username: decoded.username,
+      nickname: decoded.nickname,
+      adminCode: decoded.adminCode,
+    };
     const now = Math.floor(Date.now() / 1000);
     //token reissue
     if (decoded.exp - now < 60 * 60 * 24 * 3.5) {

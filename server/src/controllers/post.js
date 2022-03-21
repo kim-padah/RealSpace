@@ -28,13 +28,15 @@ const write = async (req, res) => {
     return;
   }
 
-  const { title, body, images, tags } = req.body;
+  const { title, body, thumbnail, images, tags } = req.body;
 
   const post = new Post({
     title,
     body,
+    thumbnail,
     images,
     tags,
+    user: req.user,
   });
   try {
     await post.save();
