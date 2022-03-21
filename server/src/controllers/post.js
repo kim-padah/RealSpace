@@ -3,11 +3,31 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const Joi = require('joi');
 
-const checkObjectId = (req, res, next) => {
+const getPostById = async (req, res, next) => {
   const { id } = req.params;
 
   if (!ObjectId.isValid(id)) {
     res.status(400).end();
+    return;
+  }
+  try {
+    const post = await Post.findById(id);
+    if (!post) {
+      res.status(404).send({ message: 'Not Found' });
+      return;
+    }
+    req.post = post;
+    return next();
+  } catch (e) {
+    res.status(500).send(e);
+  }
+};
+
+const checkOwnPost = (req, res, next) => {
+  const { user, post } = req;
+
+  if (post.user._id.toString() !== user._id) {
+    res.status(403).send({ message: 'Forbidden author' });
     return;
   }
   return next();
@@ -56,19 +76,7 @@ const list = async (req, res) => {
 };
 
 const read = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const post = await Post.findById(id).exec();
-    //왜이거 404가안뜨지....end()를 붙여줘야함
-    if (!post) {
-      res.status(404).end();
-      return;
-    }
-    res.status(200).send(post);
-  } catch (e) {
-    res.status(500).send(e);
-  }
+  res.send(req.post);
 };
 
 const remove = async (req, res) => {
@@ -114,4 +122,4 @@ const update = async (req, res) => {
   }
 };
 
-module.exports = { checkObjectId, write, list, read, remove, update };
+module.exports = { getPostById, checkOwnPost, write, list, read, remove, update };

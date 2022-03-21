@@ -79,7 +79,6 @@ const login = async (req, res) => {
 };
 
 const check = async (req, res) => {
-  console.log(req.user, '@@@@@@@@@@@@@@@@@@@@@@@@@@');
   const user = { _id: req._id, username: req.username, nickname: req.nickname, adminCode: req.adminCode };
   if (!user) {
     res.status(401).end();
