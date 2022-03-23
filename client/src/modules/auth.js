@@ -1,16 +1,34 @@
 import { createAction, handleActions } from 'redux-actions';
 
-const SAMPLE_ACTION = 'auth/SAMPLE_ACTION';
+const CHANGE_FIELD = 'auth/CHANGE_FIELD';
+const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 // const CHANGE_INPUT = 'todos/CHANGE_INPUT';
 
-export const sampleAction = createAction(SAMPLE_ACTION);
+export const changeField = createAction(CHANGE_FIELD, ({ form, key, value }) => ({
+  form,
+  key,
+  value,
+}));
+export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
+
+// export const sampleAction = createAction(SAMPLE_ACTION);
 // export const changeInput = (input) => ({
 //   type: CHANGE_INPUT,
 //   input,
 // });
 // export const changeInput = createAction(CAHNGE_INPUT, input=>input)
 
-const initialState = {};
+const initialState = {
+  register: {
+    username: '',
+    password: '',
+    passwordConfirm: '',
+  },
+  login: {
+    username: '',
+    password: '',
+  },
+};
 // const initialState = {
 //     input: '',
 //     todos: [
@@ -34,9 +52,27 @@ const initialState = {};
 
 const auth = handleActions(
   {
-    [SAMPLE_ACTION]: (state, action) => state,
-  },
-  initialState,
-);
+    [CHANGE_FIELD]: (state, {payload: {form, key, value}}
+    ) => {...state,
+    if([form] = "register") {
+      [key]
+    }
+    [form][key] = value
+  }  
+
+
+
+}
+)
+  
+
+
+
+// const auth = handleActions(
+//   {
+//     [SAMPLE_ACTION]: (state, action) => state,
+//   },
+//   initialState,
+// );
 
 export default auth;
