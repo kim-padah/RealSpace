@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm } from '../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
@@ -8,16 +8,31 @@ const LoginForm = () => {
   const { form } = useSelector(({ auth }) => ({
     form: auth.login,
   }));
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    dispatch(
-      changeField({
-        form: 'login',
-        key: name,
-        value,
-      }),
-    );
-  };
+  const loading = useSelector(state.loading);
+  // const state = useSelector(({ state.loading }) => ({}))
+  const onChange = useCallback(
+    (e) => {
+      const { value, name } = e.target;
+      return dispatch(
+        changeField({
+          form: 'login',
+          key: name,
+          value,
+        }),
+      );
+    },
+    [dispatch],
+  );
+  // const onChange = (e) => {
+  //   const { value, name } = e.target;
+  //   dispatch(
+  //     changeField({
+  //       form: 'login',
+  //       key: name,
+  //       value,
+  //     }),
+  //   );
+  // };
   const onSubmit = (e) => {
     e.preventDefault();
   };
