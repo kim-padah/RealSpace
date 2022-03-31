@@ -8,7 +8,11 @@ const RegisterForm = () => {
   // const { form } = useSelector(({ auth }) => ({
   //   form: auth.register,
   // }));
-  const form = useSelector((state) => state.auth.register);
+  const { form, auth, authError } = useSelector((state) => ({
+    form: state.auth.register,
+    auth: state.auth.auth,
+    authError: state.auth.authError,
+  }));
   const loadingRegister = useSelector((state) => state.loading['auth/REGISTER']);
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -34,6 +38,23 @@ const RegisterForm = () => {
   useEffect(() => {
     dispatch(initializeForm('register'));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (authError) {
+      console.log('오류발생');
+      console.log(authError);
+      if (authError.response.data.details) {
+        console.log(authError.response.data.details[0]);
+      } else {
+        console.log(authError.response.data);
+      }
+      return;
+    }
+    if (auth) {
+      console.log('회원가입성공');
+      console.log(auth);
+    }
+  }, [auth, authError]);
 
   return (
     <AuthForm

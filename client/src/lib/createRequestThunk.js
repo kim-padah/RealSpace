@@ -1,5 +1,11 @@
 import { startLoading, finishLoading } from '../redux/modules/loading';
 
+export const createRequestActionTypes = (type) => {
+  const SUCCESS = `${type}_SUCCESS`;
+  const FAILURE = `${type}_FAILURE`;
+  return [type, SUCCESS, FAILURE];
+};
+
 export default function createRequestThunk(type, request) {
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
@@ -21,12 +27,7 @@ export default function createRequestThunk(type, request) {
         payload: e,
         error: true,
       }); // in case error
-      dispatch(startLoading(type));
-      if (e.response.data.details) {
-        console.log(e.response.data.details[0]);
-      } else {
-        console.log(e.response.data);
-      }
+      dispatch(finishLoading(type));
       throw e; //showing error on component
     }
   };

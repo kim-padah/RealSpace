@@ -1,16 +1,21 @@
 import { createAction, handleActions } from 'redux-actions';
 import produce from 'immer';
-import * as api from '../../lib/api/auth';
+import * as authAPI from '../../lib/api/auth';
 import createRequestThunk from '../../lib/createRequestThunk';
+import { createRequestActionTypes } from '../../lib/createRequestThunk';
 
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 
-const REGISTER = 'auth/REGISTER';
-const REGISTER_SUCCESS = 'auth/REGISTER_SUCCESS';
-
-const LOGIN = 'auth/LOGIN';
-const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
+const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] =
+  createRequestActionTypes('auth/REGISTER');
+// const REGISTER = 'auth/REGISTER';
+// const REGISTER_SUCCESS = 'auth/REGISTER_SUCCESS';
+// const REGISTER_FAILURE = 'auth/REGISTER_FAILURE';
+const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes('auth/LOGIN');
+// const LOGIN = 'auth/LOGIN';
+// const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
+// const LOGIN_FAILURE = 'auth/LOGIN_FAILURE';
 
 export const changeField = createAction(CHANGE_FIELD, ({ form, key, value }) => ({
   form,
@@ -20,8 +25,8 @@ export const changeField = createAction(CHANGE_FIELD, ({ form, key, value }) => 
 
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 
-export const register = createRequestThunk(REGISTER, api.register);
-export const login = createRequestThunk(LOGIN, api.login);
+export const register = createRequestThunk(REGISTER, authAPI.register);
+export const login = createRequestThunk(LOGIN, authAPI.login);
 
 const initialState = {
   register: {
@@ -35,6 +40,8 @@ const initialState = {
     username: '',
     password: '',
   },
+  auth: null,
+  authError: null,
 };
 
 const auth = handleActions(
@@ -46,14 +53,28 @@ const auth = handleActions(
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
+      authError: null,
     }),
-    [REGISTER_SUCCESS]: (state, action) => ({
+    // [REGISTER_SUCCESS]: (state, action) => ({
+    //   ...state,
+    //   register: action.payload,
+    //   authError: null,
+    // }),
+    [REGISTER_SUCCESS]: (state, { payload: auth }) => ({
       ...state,
-      register: action.payload,
+      // register: action.payload,
+      authError: null,
+      auth,
+    }),
+    [REGISTER_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      // register: action.payload,
+      authError: error,
     }),
     [LOGIN_SUCCESS]: (state, action) => ({
       ...state,
-      login: action.payload,
+      authError: null,
+      auth: action.payload,
     }),
   },
   initialState,
