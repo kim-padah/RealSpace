@@ -11,8 +11,7 @@ const register = async (req, res) => {
 
   const result = schema.validate(req.body);
   if (result.error) {
-    res.status(400).end();
-    res.send(result.error);
+    res.status(400).send(result.error);
     return;
   }
 
@@ -79,7 +78,12 @@ const login = async (req, res) => {
 };
 
 const check = async (req, res) => {
-  const user = { _id: req._id, username: req.username, nickname: req.nickname, adminCode: req.adminCode };
+  const user = {
+    _id: req._id,
+    username: req.username,
+    nickname: req.nickname,
+    adminCode: req.adminCode,
+  };
   if (!user) {
     res.status(401).end();
     return;
