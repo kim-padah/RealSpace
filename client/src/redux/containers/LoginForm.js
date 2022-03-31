@@ -5,34 +5,36 @@ import AuthForm from '../../components/auth/AuthForm';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { form } = useSelector(({ auth }) => ({
-    form: auth.login,
-  }));
-  const loading = useSelector(state.loading);
+  // const { form } = useSelector(({ auth }) => ({
+  //   form: auth.login,
+  // }));
+  const form = useSelector((state) => state.auth.login);
+  const loadingLogin = useSelector((state) => state.loading['auth/LOGIN']);
+  // const loading = useSelector(state.loading);
   // const state = useSelector(({ state.loading }) => ({}))
-  const onChange = useCallback(
-    (e) => {
-      const { value, name } = e.target;
-      return dispatch(
-        changeField({
-          form: 'login',
-          key: name,
-          value,
-        }),
-      );
-    },
-    [dispatch],
-  );
-  // const onChange = (e) => {
-  //   const { value, name } = e.target;
-  //   dispatch(
-  //     changeField({
-  //       form: 'login',
-  //       key: name,
-  //       value,
-  //     }),
-  //   );
-  // };
+  // const onChange = useCallback(
+  //   (e) => {
+  //     const { value, name } = e.target;
+  //     return dispatch(
+  //       changeField({
+  //         form: 'login',
+  //         key: name,
+  //         value,
+  //       }),
+  //     );
+  //   },
+  //   [dispatch],
+  // );
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    dispatch(
+      changeField({
+        form: 'login',
+        key: name,
+        value,
+      }),
+    );
+  };
   const onSubmit = (e) => {
     e.preventDefault();
   };
@@ -41,7 +43,15 @@ const LoginForm = () => {
     dispatch(initializeForm('login'));
   }, [dispatch]);
 
-  return <AuthForm type="login" form={form} onChange={onChange} onSubmit={onSubmit} />;
+  return (
+    <AuthForm
+      type="login"
+      form={form}
+      loadingLogin={loadingLogin}
+      onChange={onChange}
+      onSubmit={onSubmit}
+    />
+  );
 };
 
 export default LoginForm;
