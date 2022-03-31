@@ -21,7 +21,7 @@ const register = async (req, res) => {
     const exists = await User.findByUsername(username);
     //check user already exist or not
     if (exists) {
-      res.status(409).end(); //409 conflict return in case of already exist
+      res.status(409).send({ message: `"${username}" is already in used` }); //409 conflict return in case of already exist
       return;
     }
 
@@ -44,7 +44,7 @@ const register = async (req, res) => {
     res.status(500).send(e);
   }
 };
-
+500;
 const login = async (req, res) => {
   const { username, password } = req.body;
 
