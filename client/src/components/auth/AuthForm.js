@@ -59,7 +59,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
           name="username"
           placeholder="id"
           onChange={onChange}
-          value={form.username}
+          value={form.username || ''}
         />
         <StyledInput
           autoComplete="new-password"
@@ -67,7 +67,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
           placeholder="password"
           type="password"
           onChange={onChange}
-          value={form.password}
+          value={form.password || ''}
         />
         {type === 'register' && (
           <StyledInput
@@ -76,7 +76,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
             placeholder="passwordConfirm"
             type="password"
             onChange={onChange}
-            value={form.passwordConfirm}
+            value={form.passwordConfirm || ''}
           />
         )}
         {type === 'register' && (
@@ -84,7 +84,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
             name="nickname"
             placeholder="nickname"
             onChange={onChange}
-            value={form.nickname}
+            value={form.nickname || ''}
           />
         )}
         {type === 'register' && (
@@ -92,7 +92,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
             name="adminCode"
             placeholder="admin code"
             onChange={onChange}
-            value={form.adminCode}
+            value={form.adminCode || ''}
           />
         )}
         <ButtonWithMarginTop cyan fullWidth>

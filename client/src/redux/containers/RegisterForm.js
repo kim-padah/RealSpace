@@ -24,7 +24,7 @@ const RegisterForm = () => {
     e.preventDefault();
     const { username, password, passwordConfirm, nickname, adminCode } = form;
     if (password !== passwordConfirm) {
-      console.log('wrong password g');
+      console.log({ message: 'password confirm is not matched to password' });
       //TODO:오류 처리
       return;
     }

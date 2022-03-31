@@ -14,6 +14,7 @@ export default function createRequestThunk(type, request) {
         payload: response.data,
       }); //in case success
       dispatch(finishLoading(type));
+      console.log(response.data);
     } catch (e) {
       dispatch({
         type: FAILURE,
@@ -21,6 +22,11 @@ export default function createRequestThunk(type, request) {
         error: true,
       }); // in case error
       dispatch(startLoading(type));
+      if (e.response.data.details) {
+        console.log(e.response.data.details[0]);
+      } else {
+        console.log(e.response.data);
+      }
       throw e; //showing error on component
     }
   };
