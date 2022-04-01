@@ -20,7 +20,6 @@ export default function createRequestThunk(type, request) {
         payload: response.data,
       }); //in case success
       dispatch(finishLoading(type));
-      console.log(response.data);
     } catch (e) {
       dispatch({
         type: FAILURE,

@@ -9,13 +9,8 @@ const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] =
   createRequestActionTypes('auth/REGISTER');
-// const REGISTER = 'auth/REGISTER';
-// const REGISTER_SUCCESS = 'auth/REGISTER_SUCCESS';
-// const REGISTER_FAILURE = 'auth/REGISTER_FAILURE';
+
 const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes('auth/LOGIN');
-// const LOGIN = 'auth/LOGIN';
-// const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
-// const LOGIN_FAILURE = 'auth/LOGIN_FAILURE';
 
 export const changeField = createAction(CHANGE_FIELD, ({ form, key, value }) => ({
   form,
@@ -55,20 +50,17 @@ const auth = handleActions(
       [form]: initialState[form],
       authError: null,
     }),
-    // [REGISTER_SUCCESS]: (state, action) => ({
-    //   ...state,
-    //   register: action.payload,
-    //   authError: null,
-    // }),
     [REGISTER_SUCCESS]: (state, { payload: auth }) => ({
       ...state,
-      // register: action.payload,
       authError: null,
       auth,
     }),
     [REGISTER_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      // register: action.payload,
+      authError: error,
+    }),
+    [REGISTER_FAILURE]: (state, { payload: error }) => ({
+      ...state,
       authError: error,
     }),
     [LOGIN_SUCCESS]: (state, action) => ({
@@ -76,6 +68,14 @@ const auth = handleActions(
       authError: null,
       auth: action.payload,
     }),
+    [LOGIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
+    }),
+    // [LOGIN_FAILURE]: (state, action) => ({
+    //   ...state,
+    //   authError: action.payload,
+    // }),
   },
   initialState,
 );

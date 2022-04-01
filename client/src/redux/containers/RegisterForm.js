@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../modules/auth';
+import { check } from '../modules/user';
 import AuthForm from '../../components/auth/AuthForm';
 
 const RegisterForm = () => {
@@ -8,10 +9,11 @@ const RegisterForm = () => {
   // const { form } = useSelector(({ auth }) => ({
   //   form: auth.register,
   // }));
-  const { form, auth, authError } = useSelector((state) => ({
+  const { form, auth, authError, user } = useSelector((state) => ({
     form: state.auth.register,
     auth: state.auth.auth,
     authError: state.auth.authError,
+    user: state.user.user,
   }));
   const loadingRegister = useSelector((state) => state.loading['auth/REGISTER']);
   const onChange = (e) => {
@@ -53,8 +55,16 @@ const RegisterForm = () => {
     if (auth) {
       console.log('회원가입성공');
       console.log(auth);
+      dispatch(check());
     }
-  }, [auth, authError]);
+  }, [auth, authError, dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      console.log('check API 성공');
+      console.log(user);
+    }
+  }, [user]);
 
   return (
     <AuthForm
