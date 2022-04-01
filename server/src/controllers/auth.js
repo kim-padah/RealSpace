@@ -35,6 +35,7 @@ const register = async (req, res) => {
     const serializedData = user.serialize();
     const token = user.generateToken();
     res
+      .status(200)
       .cookie('access_token', token, {
         maxAge: 1000 * 60 * 60 * 24 * 7, //7days
         httpOnly: true,
@@ -78,17 +79,12 @@ const login = async (req, res) => {
 };
 
 const check = async (req, res) => {
-  const user = {
-    _id: req._id,
-    username: req.username,
-    nickname: req.nickname,
-    adminCode: req.adminCode,
-  };
-  if (!user) {
-    res.status(401).end();
+  //jwtAuthmiddleware에서 인증통과시 req에 user를 넣어줌
+  if (!req.user.username) {
+    res.status(401).send({ message: 'unauthorized' });
     return;
   }
-  res.send(user);
+  res.status(200).send(req.user);
 };
 
 const logout = async (req, res) => {
