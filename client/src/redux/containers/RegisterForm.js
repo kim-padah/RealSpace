@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../modules/auth';
 import { check } from '../modules/user';
@@ -6,17 +6,16 @@ import AuthForm from '../../components/auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { form } = useSelector(({ auth }) => ({
-  //   form: auth.register,
-  // }));
   const { form, auth, authError, user } = useSelector((state) => ({
     form: state.auth.register,
     auth: state.auth.auth,
     authError: state.auth.authError,
     user: state.user.user,
   }));
+
   const loadingRegister = useSelector((state) => state.loading['auth/REGISTER']);
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -31,9 +30,13 @@ const RegisterForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const { username, password, passwordConfirm, nickname, adminCode } = form;
+
+    if ([username, password, passwordConfirm, nickname].includes('')) {
+      setError('please fill the blank');
+      return;
+    }
     if (password !== passwordConfirm) {
-      console.log({ message: 'password confirm is not matched to password' });
-      //TODO:오류 처리
+      setError('password confirm not matched');
       return;
     }
     dispatch(register({ username, password, nickname, adminCode }));
@@ -45,12 +48,19 @@ const RegisterForm = () => {
 
   useEffect(() => {
     if (authError) {
-      console.log('오류발생');
-      console.log(authError);
-      if (authError.response.data.details) {
-        console.log(authError.response.data.details[0]);
-      } else {
-        console.log(authError.response.data);
+      if (authError.response.status === 409) {
+        setError(authError.response.data.message);
+        return;
+      }
+      // if (authError.response.data.details[0]) {
+      //   console.log(authError.response.data);
+      //   setError(authError.response.data.details[0].message);
+      //   return;
+      // }
+      if (authError) {
+        console.log(authError.response, '@@@@@@');
+        setError('error!');
+        return;
       }
       return;
     }
@@ -74,6 +84,7 @@ const RegisterForm = () => {
       loadingRegister={loadingRegister}
       onChange={onChange}
       onSubmit={onSubmit}
+      error={error}
     />
   );
 };
