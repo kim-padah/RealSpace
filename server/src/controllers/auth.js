@@ -6,7 +6,7 @@ const register = async (req, res) => {
     username: Joi.string().alphanum().min(3).max(20).required(),
     password: Joi.string().required(),
     nickname: Joi.string().required(),
-    adminCode: Joi.string(),
+    adminCode: Joi.string().allow(null, ''),
   });
 
   const result = schema.validate(req.body);
