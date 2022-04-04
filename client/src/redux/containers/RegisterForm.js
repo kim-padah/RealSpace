@@ -59,7 +59,7 @@ const RegisterForm = () => {
       // }
       if (authError) {
         console.log(authError.response, '@@@@@@');
-        setError('error!');
+        setError('unknown error!');
         return;
       }
       return;
