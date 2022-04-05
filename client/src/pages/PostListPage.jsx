@@ -1,12 +1,12 @@
-import Header from '../components/common/Header';
+import HeaderContainer from '../redux/containers/Header';
 
-function PostListPage() {
+const PostListPage = () => {
   return (
-    <div>
-      <Header />
+    <>
+      <HeaderContainer />
       <div>Hello.</div>
-    </div>
+    </>
   );
-}
+};
 
 export default PostListPage;
