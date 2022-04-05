@@ -80,7 +80,9 @@ const login = async (req, res) => {
 
 const check = async (req, res) => {
   //jwtAuthmiddleware에서 인증통과시 req에 user를 넣어줌
-  if (!req.user.username) {
+  //if(!req.user.username) Cannot read properties of undefined (reading 'username')에러가 생겨서 아래와 같이 수정
+  // console.log(req.user);
+  if (req.user === undefined ? true : false) {
     res.status(401).send({ message: 'unauthorized' });
     return;
   }
