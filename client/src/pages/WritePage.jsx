@@ -1,14 +1,14 @@
 import EditorContainer from '../redux/containers/write/EditorContainer';
 import Responsive from '../components/common/Responsive';
 import TagBoxContainer from '../redux/containers/write/TagBoxContainer';
-import WriteActionButtons from '../components/write/WriteActionButtons';
+import WriteActionButtonsContainer from '../redux/containers/write/WriteActionButtonsContainer';
 
 const WritePage = () => {
   return (
     <Responsive>
       <EditorContainer />
       <TagBoxContainer />
-      <WriteActionButtons />
+      <WriteActionButtonsContainer />
     </Responsive>
   );
 };
