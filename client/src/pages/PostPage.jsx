@@ -1,11 +1,13 @@
-import React from 'react';
+import HeaderContainer from '../redux/containers/Header';
+import PostViewer from '../components/post/PostViewer';
 
-function PostPage() {
-    return (
-        <div>
-            포스트읽기
-        </div>
-    );
-}
+const PostPage = () => {
+  return (
+    <>
+      <HeaderContainer />
+      <PostViewer />
+    </>
+  );
+};
 
 export default PostPage;
