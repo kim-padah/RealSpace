@@ -1,11 +1,11 @@
 import HeaderContainer from '../redux/containers/Header';
-import PostViewer from '../components/post/PostViewer';
+import PostViewerContainer from '../redux/containers/post/PostViewerContainer';
 
 const PostPage = () => {
   return (
     <>
       <HeaderContainer />
-      <PostViewer />
+      <PostViewerContainer />
     </>
   );
 };

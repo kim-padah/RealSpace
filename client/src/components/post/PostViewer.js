@@ -44,11 +44,23 @@ const PostContent = styled.div`
   color: ${palette.gray[8]};
 `;
 
-const PostViewer = () => {
+const PostViewer = ({ post, loading, error }) => {
+  if (error) {
+    if (error.response && error.response.status === 404)
+      return <PostViewerBlock>post is not exist</PostViewerBlock>;
+    console.log(error.response.data);
+    return <PostViewerBlock>error inccur!!!!!!!!!!</PostViewerBlock>;
+  }
+
+  if (loading || !post) {
+    return null;
+  }
+
+  const { title, body, user, publishDate, tags } = post;
   return (
     <PostViewerBlock>
       <PostHead>
-        <h1>제목</h1>
+        <h1>{title}</h1>
         <SubInfo>
           <span>
             <b>tester</b>
