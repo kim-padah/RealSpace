@@ -1,5 +1,5 @@
 import HeaderContainer from '../redux/containers/Header';
-import PostViewerContainer from '../redux/containers/post/PostViewerContainer';
+import PostViewerContainer from '../redux/containers/PostViewerContainer';
 
 const PostPage = () => {
   return (

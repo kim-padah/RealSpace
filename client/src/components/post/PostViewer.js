@@ -49,7 +49,7 @@ const PostViewer = ({ post, loading, error }) => {
     if (error.response && error.response.status === 404)
       return <PostViewerBlock>post is not exist</PostViewerBlock>;
     console.log(error.response.data);
-    return <PostViewerBlock>error inccur!!!!!!!!!!</PostViewerBlock>;
+    return <PostViewerBlock>error!</PostViewerBlock>;
   }
 
   if (loading || !post) {
@@ -61,21 +61,10 @@ const PostViewer = ({ post, loading, error }) => {
     <PostViewerBlock>
       <PostHead>
         <h1>{title}</h1>
-        <SubInfo>
-          <span>
-            <b>tester</b>
-          </span>
-          <span>{new Date().toLocaleDateString()}</span>
-        </SubInfo>
-        <Tags>
-          <div className="tag">#tag1</div>
-          <div className="tag">#tag2</div>
-          <div className="tag">#tag3</div>
-        </Tags>
+        <SubInfo username={user.username} publishDate={publishDate} hasMarginTop />
+        <Tags tags={tags} />
       </PostHead>
-      <PostContent
-        dangerouslySetInnerHTML={{ __html: '<p>HTML<b>내용<b>imunida.</p>' }}
-      />
+      <PostContent dangerouslySetInnerHTML={{ __html: body }} />
     </PostViewerBlock>
   );
 };

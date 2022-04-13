@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { readPost, unloadPost } from '../../modules/post';
-import PostViewer from '../../../components/post/PostViewer';
+import { readPost, unloadPost } from '../modules/post';
+import PostViewer from '../../components/post/PostViewer';
 
-const PostViewerContainer = ({ match }) => {
+const PostViewerContainer = () => {
   const { postId } = useParams();
 
   const dispatch = useDispatch();

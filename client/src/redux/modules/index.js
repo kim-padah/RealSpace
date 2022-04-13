@@ -4,6 +4,7 @@ import loading from './loading';
 import user from './user';
 import write from './write';
 import post from './post';
+import posts from './posts';
 
 const rootReducer = combineReducers({
   auth,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   user,
   write,
   post,
+  posts,
 });
 
 export default rootReducer;
