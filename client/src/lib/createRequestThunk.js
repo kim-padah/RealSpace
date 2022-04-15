@@ -18,6 +18,7 @@ export default function createRequestThunk(type, request) {
       dispatch({
         type: SUCCESS,
         payload: response.data,
+        meta: response,
       }); //in case success
       dispatch(finishLoading(type));
     } catch (e) {
