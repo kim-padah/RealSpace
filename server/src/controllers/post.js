@@ -2,6 +2,31 @@ const Post = require('../models/post');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 const Joi = require('joi');
+const sanitizeHtml = require('sanitize-html');
+
+const sanitizeOption = {
+  allowedTags: [
+    'h1',
+    'h2',
+    'b',
+    'i',
+    'u',
+    's',
+    'p',
+    'ul',
+    'ol',
+    'li',
+    'blockquote',
+    'a',
+    'img',
+  ],
+  allowedAttributes: {
+    a: ['href', 'name', 'target'],
+    img: ['src'],
+    li: ['class'],
+  },
+  allowedSchemes: ['data', 'http'],
+};
 
 const getPostById = async (req, res, next) => {
   const { id } = req.params;
@@ -52,7 +77,7 @@ const write = async (req, res) => {
 
   const post = new Post({
     title,
-    body,
+    body: sanitizeHtml(body, sanitizeOption),
     thumbnail,
     images,
     tags,
@@ -65,6 +90,12 @@ const write = async (req, res) => {
     res.status(500).send(e);
   }
 };
+const removeHtmlAndShorten = (body) => {
+  const filtered = sanitizeHtml(body, {
+    allowedTags: [],
+  });
+  return filtered.length < 200 ? filtered : `${filtered.slice(0, 200)}...`;
+};
 
 const list = async (req, res) => {
   const { tag, username } = req.query;
@@ -75,7 +106,9 @@ const list = async (req, res) => {
 
   try {
     const posts = await Post.find(query).sort({ _id: -1 }).exec();
-    res.status(200).send(posts);
+    res
+      .status(200)
+      .send(posts.map((post) => ({ ...post, body: removeHtmlAndShorten(post.body) })));
   } catch (e) {
     res.status(500).send(e);
   }
@@ -113,8 +146,13 @@ const update = async (req, res) => {
     return;
   }
 
+  const nextData = { ...req.body };
+  if (nextData.body) {
+    nextData.body = sanitizeHtml(nextData.body, sanitizeOption);
+  }
+
   try {
-    const post = await Post.findByIdAndUpdate(id, req.body, {
+    const post = await Post.findByIdAndUpdate(id, nextData, {
       new: true, //return updated data
       // false: return before update data
     }).exec();
