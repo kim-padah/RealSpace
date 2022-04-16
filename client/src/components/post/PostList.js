@@ -41,11 +41,11 @@ const PostItem = ({ post }) => {
   // const { publishedDate, user, tags, title, body, _id } = post;
   const { body, _doc } = post;
   const { user, _id, publishedDate, tags, title } = _doc;
-  console.log(post, 'user');
+
   return (
     <PostItemBlock>
       <h2>
-        <Link to={`/@${user.username}/${_id}`}></Link>
+        <Link to={`/@${user.username}/${_id}`}>{title}</Link>
       </h2>
       <SubInfo username={user.username} publishedDate={new Date(publishedDate)} />
       <Tags tags={tags} />

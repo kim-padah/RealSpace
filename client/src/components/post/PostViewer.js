@@ -44,7 +44,7 @@ const PostContent = styled.div`
   color: ${palette.gray[8]};
 `;
 
-const PostViewer = ({ post, loading, error }) => {
+const PostViewer = ({ post, loading, error, actionButtons }) => {
   if (error) {
     if (error.response && error.response.status === 404)
       return <PostViewerBlock>post is not exist</PostViewerBlock>;
@@ -57,6 +57,7 @@ const PostViewer = ({ post, loading, error }) => {
   }
 
   const { title, body, user, publishDate, tags } = post;
+  console.log(post, 'viewerchekc');
   return (
     <PostViewerBlock>
       <PostHead>
@@ -64,6 +65,7 @@ const PostViewer = ({ post, loading, error }) => {
         <SubInfo username={user.username} publishDate={publishDate} hasMarginTop />
         <Tags tags={tags} />
       </PostHead>
+      {actionButtons}
       <PostContent dangerouslySetInnerHTML={{ __html: body }} />
     </PostViewerBlock>
   );
