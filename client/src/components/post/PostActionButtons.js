@@ -25,10 +25,10 @@ const ActionButton = styled.button`
   }
 `;
 
-const PostActionButtons = () => {
+const PostActionButtons = ({ onEdit }) => {
   return (
     <PostActionButtonBlock>
-      <ActionButton>Modify</ActionButton>
+      <ActionButton onClick={onEdit}>Modify</ActionButton>
       <ActionButton>Delete</ActionButton>
     </PostActionButtonBlock>
   );
