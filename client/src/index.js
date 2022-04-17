@@ -10,6 +10,7 @@ import rootReducer from './redux/modules';
 import ReduxThunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { tempSetUser, check } from './redux/modules/user';
+import { HelmetProvider } from 'react-helmet-async';
 
 const middleware = [ReduxThunk, logger];
 const store = createStore(
@@ -34,7 +35,9 @@ loadUser();
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root'),
