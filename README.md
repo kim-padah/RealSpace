@@ -50,6 +50,8 @@ RealSpace の建築ディーサインをイメージ中心にアップロード�
 4. release : 이번 출시 버전을 준비하는 브랜치
 5. hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
 
+[gitFlow](https://user-images.githubusercontent.com/91414657/178094928-db77ef51-6492-4af7-9e36-4499b7bbce58.jpg)
+
 ## [Following AirBnb Code Convention](https://github.com/airbnb/javascript)
 
 <br/>
