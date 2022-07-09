@@ -3,14 +3,16 @@
 Real space company web page management system
 会社ウェブページ管理システム
 
-RealSpace の建築ディーサインをイメージ中心にアップロード及び管理する為のシステム
+RealSpace の建築ディーサインをイメージ中心にアップロード及び管理する為のシステム<br/>
 ：多量のイメージを簡単に安く管理するように設計
 
 <br/>
 
 ## 📆 Project period
 
-### 22.07.09 ~
+### 22.03 ~ 22.04,
+
+### 22.07 ~
 
 <br/>
 
@@ -33,24 +35,22 @@ RealSpace の建築ディーサインをイメージ中心にアップロード�
 - Hibernate / SpringJPA
 - MySQL 8.0
 - Redis
-- React.js 18
+- React.js
 - Redux
 
 <br/>
 
-## Wiki
-
-- [Git Branch 전략]
+## - [Git Branch Strategy]
 
 - Git Flow
 
-1. master : 제품으로 출시될 수 있는 브랜치
+1. main : 제품으로 출시될 수 있는 브랜치
 2. develop : 다음 출시 버전을 개발하는 브랜치
 3. feature : 기능을 개발하는 브랜치
 4. release : 이번 출시 버전을 준비하는 브랜치
 5. hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
 
-- [Code Convention](https://github.com/airbnb/javascript)
+## [Following AirBnb Code Convention](https://github.com/airbnb/javascript)
 
 <br/>
 
