@@ -43,9 +43,10 @@ const Editor = ({ title, body, onChangeField }) => {
       modules: {
         toolbar: [
           [{ header: 1 }, { header: 2 }],
-          ['bold', 'italic', 'underline', 'strike'],
+          ['underline', 'bold'],
+          ['italic', 'strike'],
           [{ list: 'ordered' }, { list: 'bullet' }],
-          ['blockquote', 'code-block', 'link', 'image'],
+          ['image'],
         ],
       },
     });
@@ -55,6 +56,9 @@ const Editor = ({ title, body, onChangeField }) => {
       if (source === 'user') {
         onChangeField({ key: 'body', value: quill.root.innerHTML });
       }
+      console.log(source, 'sourse!!!!!!!!!!!!!!!!111');
+      console.log(delta, 'dt!!!!!!!!!!!!!!!!!!!!!!!!');
+      console.log(oldDelta, 'oldDelta!!!!!!!!!!!!!!!!!!!!!!!!1');
     });
   }, [onChangeField]);
 
