@@ -10,9 +10,9 @@ RealSpace の建築ディーサインをイメージ中心にアップロード�
 
 ## 📆 Project period
 
-### 22.03 ~ 22.04,
+### 22.03 ~ 22.04, server : Node.js/MongoDB
 
-### 22.07 ~
+### 22.07 ~ Rebuild project server to Spring boot/Mysql
 
 <br/>
 
