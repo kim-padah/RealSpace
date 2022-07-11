@@ -1,5 +1,6 @@
 package kr.co.realspace.realspace.security.jwt;
 
+import kr.co.realspace.realspace.security.services.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -42,8 +44,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String parseJwt(HttpServletRequest request){
+    private String parseJwt(HttpServletRequest request) {
         String jwt = jwtUtils.getJwtFromCookies(request);
         return jwt;
     }
 
+}

@@ -1,5 +1,7 @@
 package kr.co.realspace.realspace.security.services;
 
+import kr.co.realspace.realspace.entity.User;
+import kr.co.realspace.realspace.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

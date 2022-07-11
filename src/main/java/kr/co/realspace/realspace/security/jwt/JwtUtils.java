@@ -1,5 +1,6 @@
 package kr.co.realspace.realspace.security.jwt;
 
+import kr.co.realspace.realspace.security.services.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,6 @@ import io.jsonwebtoken.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-
 @Component
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
