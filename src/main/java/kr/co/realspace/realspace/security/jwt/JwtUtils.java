@@ -15,11 +15,11 @@ import java.util.Date;
 @Component
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-    @Value("${mizkin.app.jwtSecret}")
+    @Value("${realspace.app.jwtSecret}")
     private String jwtSecret;
-    @Value("${mizkin.app.jwtExpirationMs}")
+    @Value("${realspace.app.jwtExpirationMs}")
     private int jwtExpirationMs;
-    @Value("${mizkin.app.jwtCookieName}")
+    @Value("${realspace.app.jwtCookieName}")
     private String jwtCookie;
 
     public String getJwtFromCookies(HttpServletRequest request) {
