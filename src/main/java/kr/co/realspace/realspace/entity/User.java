@@ -1,9 +1,12 @@
 package kr.co.realspace.realspace.entity;
 
+import kr.co.realspace.realspace.payload.request.SignupRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -23,6 +26,10 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "email")
         })
 public class User {
+    @Autowired
+    static
+    PasswordEncoder encoder;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,6 +54,10 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = encode;
+    }
+
+    public static User createUser(SignupRequest signUpRequest) {
+        return new User(signUpRequest.getUsername(),signUpRequest.getEmail(),encoder.encode(signUpRequest.getPassword()));
     }
 
     public void setId(Long id) {
