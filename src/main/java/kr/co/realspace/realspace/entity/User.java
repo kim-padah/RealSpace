@@ -26,9 +26,6 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "email")
         })
 public class User {
-    @Autowired
-    static
-    PasswordEncoder encoder;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,7 +54,7 @@ public class User {
     }
 
     public static User createUser(SignupRequest signUpRequest) {
-        return new User(signUpRequest.getUsername(),signUpRequest.getEmail(),encoder.encode(signUpRequest.getPassword()));
+        return new User(signUpRequest.getUsername(),signUpRequest.getEmail(),signUpRequest.getPassword());
     }
 
     public void setId(Long id) {

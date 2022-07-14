@@ -22,26 +22,13 @@ public class AuthService {
     @Autowired
     RoleRepository roleRepository;
 
-    public ResponseEntity<?> checkExistUsername(SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
-        return null;
-    }
 
-    public ResponseEntity<?> checkExistEmail(SignupRequest signUpRequest) {
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
-        }
-        return null;
-    }
 
     @Transactional
     public void createUser(SignupRequest signUpRequest) {
+        checkExistUsername(signUpRequest);
+        checkExistEmail(signUpRequest);
+
         User user = User.createUser(signUpRequest);
 
         Set<String> strRoles = signUpRequest.getRole();
@@ -68,5 +55,23 @@ public class AuthService {
         }
         user.setRoles(roles);
         userRepository.save(user);
+    }
+
+    public ResponseEntity<?> checkExistUsername(SignupRequest signUpRequest) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }
+        return null;
+    }
+
+    public ResponseEntity<?> checkExistEmail(SignupRequest signUpRequest) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+        return null;
     }
 }

@@ -21,17 +21,16 @@ import java.util.Set;
 @Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
     @Autowired
     AuthService authService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@Valid @RequestBody SignupRequest signUpRequest) {
-        authService.checkExistUsername(signUpRequest);
-        authService.checkExistEmail(signUpRequest);
         authService.createUser(signUpRequest);
-
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
+
 }
