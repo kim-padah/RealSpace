@@ -23,6 +23,7 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "email")
         })
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,26 +44,34 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User(String username, String email, String encode) {
-        this.username = username;
-        this.email = email;
-        this.password = encode;
+    //constructor made by builder
+    private User(Builder builder){
+        this.username = builder.username;
+        this.password= builder.password;
+        this.email = builder.email;
+        this.roles = builder.roles;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public static class Builder{
+        private final String username;
+        private final String password;
+        private String email;
+        private Set<Role> roles;
+        public Builder(String name, String password){
+            this.username = name;
+            this.password = password;
+        }
+        public Builder email(String emailArg){
+            email = emailArg;
+            return this;
+        }
+        public Builder role(Set<Role> roleSet){
+            roles = roleSet;
+            return this;
+        }
+        public User build(){
+            return new User(this);
+        }
     }
 
 }
