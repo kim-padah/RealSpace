@@ -20,9 +20,8 @@ public class AuthServiceImpl implements AuthService{
     @Autowired
     RoleRepository roleRepository;
 
-
     @Transactional
-    public void addUser(UserDto userDto) {
+    public UserDto addUser(UserDto userDto) {
         Set<String> strRoles = userDto.getRole();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
@@ -52,8 +51,14 @@ public class AuthServiceImpl implements AuthService{
                 .build();
 
         User createdUser = userRepository.save(user);
-    }
 
+        UserDto userResponseDto = new UserDto
+                .Builder(createdUser.getUsername())
+                .email(createdUser.getEmail())
+                .role(createdUser.getRoles())
+                .build();
+        return userResponseDto;
+     }
     public boolean checkExistUsername(UserDto userDto) {
         if(userRepository.existsByUsername(userDto.getUsername()))
             return true;

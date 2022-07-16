@@ -5,6 +5,7 @@ import kr.co.realspace.realspace.payload.response.MessageResponse;
 import kr.co.realspace.realspace.service.AuthServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,8 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
-        authServiceImpl.addUser(userDto);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        UserDto createdDto = authServiceImpl.addUser(userDto);
+        return ResponseEntity.status(HttpStatus.OK).body(createdDto);
     }
 
 
