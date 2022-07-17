@@ -7,6 +7,7 @@ import kr.co.realspace.realspace.entity.User;
 import kr.co.realspace.realspace.repository.RoleRepository;
 import kr.co.realspace.realspace.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,8 @@ public class AuthServiceImpl implements AuthService{
     UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    PasswordEncoder encoder;
 
     @Transactional
     public UserDto addUser(UserDto userDto) {
@@ -45,7 +48,7 @@ public class AuthServiceImpl implements AuthService{
             });
         }
         User user = new User
-                .Builder(userDto.getUsername(), userDto.getPassword())
+                .Builder(userDto.getUsername(), encoder.encode(userDto.getPassword()))
                 .email(userDto.getEmail())
                 .role(roles)
                 .build();
