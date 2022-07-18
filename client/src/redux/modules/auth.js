@@ -28,7 +28,7 @@ const initialState = {
     username: '',
     password: '',
     passwordConfirm: '',
-    nickname: '',
+    email: '',
     adminCode: '',
   },
   login: {
@@ -59,10 +59,6 @@ const auth = handleActions(
       ...state,
       authError: error,
     }),
-    [REGISTER_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      authError: error,
-    }),
     [LOGIN_SUCCESS]: (state, action) => ({
       ...state,
       authError: null,
@@ -72,10 +68,6 @@ const auth = handleActions(
       ...state,
       authError: error,
     }),
-    // [LOGIN_FAILURE]: (state, action) => ({
-    //   ...state,
-    //   authError: action.payload,
-    // }),
   },
   initialState,
 );

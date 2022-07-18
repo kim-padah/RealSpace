@@ -3,8 +3,8 @@ import client from './client';
 export const login = ({ username, password }) =>
   client.post('/auth/login', { username, password });
 
-export const register = ({ username, password, nickname, adminCode }) =>
-  client.post('/auth/register', { username, password, nickname, adminCode });
+export const register = ({ username, password, email, adminCode }) =>
+  client.post('/auth/signup', { username, password, email, adminCode });
 
 export const check = () => client.get('/auth/check');
 

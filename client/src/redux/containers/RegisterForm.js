@@ -29,9 +29,9 @@ const RegisterForm = () => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    const { username, password, passwordConfirm, nickname, adminCode } = form;
+    const { username, password, passwordConfirm, email, adminCode } = form;
 
-    if ([username, password, passwordConfirm, nickname].includes('')) {
+    if ([username, password, passwordConfirm, email].includes('')) {
       setError('please fill the blank');
       return;
     }
@@ -39,7 +39,7 @@ const RegisterForm = () => {
       setError('password confirm not matched');
       return;
     }
-    dispatch(register({ username, password, nickname, adminCode }));
+    dispatch(register({ username, password, email, adminCode }));
   };
 
   useEffect(() => {
