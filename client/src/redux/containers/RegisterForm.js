@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../modules/auth';
-import { check } from '../modules/user';
+// import { check } from '../modules/user';
 import AuthForm from '../../components/auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,11 +9,11 @@ const RegisterForm = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { form, auth, authError, user } = useSelector((state) => ({
+  const { form, auth, authError } = useSelector((state) => ({
     form: state.auth.register,
     auth: state.auth.auth,
     authError: state.auth.authError,
-    user: state.user.user,
+    // user: state.user.user,
   }));
 
   const loadingRegister = useSelector((state) => state.loading['auth/REGISTER']);
@@ -52,35 +52,37 @@ const RegisterForm = () => {
         setError(authError.response.data.message);
         return;
       }
-      // if (authError.response.data.details[0]) {
-      //   console.log(authError.response.data);
-      //   setError(authError.response.data.details[0].message);
-      //   return;
-      // }
       if (authError) {
-        console.log(authError.response, '@@@@@@');
-        setError('unknown error!');
+        if (authError.response.data.errors.length) {
+          setError(authError.response.data.errors[0].defaultMessage);
+          return;
+        }
+        if (authError.response.data.message) {
+          setError(authError.response.data.message);
+          return;
+        }
+        setError('unknown error! please retry');
         return;
       }
       return;
     }
     if (auth) {
-      console.log('회원가입성공');
-      console.log(auth);
-      dispatch(check());
+      alert('Welcome to join our site!');
+      navigate('/login');
+      // dispatch(check());
     }
-  }, [auth, authError, dispatch]);
+  }, [auth, authError, dispatch, navigate]);
 
-  useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
-    try {
-      localStorage.setItem('user', JSON.stringify(user));
-    } catch (e) {
-      console.log('localStorage is not working');
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate('/');
+  //   }
+  //   try {
+  //     localStorage.setItem('user', JSON.stringify(user));
+  //   } catch (e) {
+  //     console.log('localStorage is not working');
+  //   }
+  // }, [user, navigate]);
 
   return (
     <AuthForm
