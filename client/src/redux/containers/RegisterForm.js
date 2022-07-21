@@ -27,20 +27,48 @@ const RegisterForm = () => {
       }),
     );
   };
+  const { username, password, passwordConfirm, email, adminCode } = form;
+
   const onSubmit = (e) => {
     e.preventDefault();
-    const { username, password, passwordConfirm, email, adminCode } = form;
 
+    // if ([username, password, passwordConfirm, email].includes('')) {
+    //   setError('please fill the blank');
+    //   return;
+
+    // if (password.length < 4) {
+    //   setError('Password must be more than 4 characters');
+    // }
+
+    if (Object.keys(error).length === 0)
+      dispatch(register({ username, password, email, adminCode }));
+  };
+
+  useEffect(() => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if ([username, password, passwordConfirm, email].includes('')) {
       setError('please fill the blank');
+      return;
+    }
+    if (username.length < 3) {
+      setError('Username must be more than 3 characters');
+      return;
+    } else {
+      setError('');
+    }
+    if (password.length < 4) {
+      setError('Password must be more than 4 characters');
       return;
     }
     if (password !== passwordConfirm) {
       setError('password confirm not matched');
       return;
     }
-    dispatch(register({ username, password, email, adminCode }));
-  };
+    if (!regex.test(email)) {
+      setError('Invalid email format');
+      return;
+    }
+  }, [username, password, passwordConfirm, email]);
 
   useEffect(() => {
     dispatch(initializeForm('register'));
@@ -52,18 +80,24 @@ const RegisterForm = () => {
         setError(authError.response.data.message);
         return;
       }
-      if (authError) {
-        if (authError.response.data.errors.length) {
-          setError(authError.response.data.errors[0].defaultMessage);
-          return;
-        }
-        if (authError.response.data.message) {
-          setError(authError.response.data.message);
-          return;
-        }
-        setError('unknown error! please retry');
+      if (authError.response.status === 400) {
+        setError(authError.response.data.message);
         return;
       }
+      // if (authError.response.data.errors.map((error) => error))
+      //   if (authError.response.data.message) {
+      //     // if (authError.response.data.errors[0].defaultMessage.includes('3')) {
+      //     //   setError('Username must be more than 3 characters');
+      //     //   return;
+      //     // } else if (authError.response.data.errors[0].defaultMessage.includes('4')) {
+      //     //   setError('Password must be more than 4 characters');
+      //     //   return;
+      //     // }
+      //     setError(authError.response.data.message);
+      //     return;
+      //   }
+      setError('unknown error! please retry');
+
       return;
     }
     if (auth) {
