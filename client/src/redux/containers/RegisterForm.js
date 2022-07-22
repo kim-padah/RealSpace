@@ -32,14 +32,6 @@ const RegisterForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // if ([username, password, passwordConfirm, email].includes('')) {
-    //   setError('please fill the blank');
-    //   return;
-
-    // if (password.length < 4) {
-    //   setError('Password must be more than 4 characters');
-    // }
-
     if (Object.keys(error).length === 0)
       dispatch(register({ username, password, email, adminCode }));
   };
@@ -84,20 +76,7 @@ const RegisterForm = () => {
         setError(authError.response.data.message);
         return;
       }
-      // if (authError.response.data.errors.map((error) => error))
-      //   if (authError.response.data.message) {
-      //     // if (authError.response.data.errors[0].defaultMessage.includes('3')) {
-      //     //   setError('Username must be more than 3 characters');
-      //     //   return;
-      //     // } else if (authError.response.data.errors[0].defaultMessage.includes('4')) {
-      //     //   setError('Password must be more than 4 characters');
-      //     //   return;
-      //     // }
-      //     setError(authError.response.data.message);
-      //     return;
-      //   }
       setError('unknown error! please retry');
-
       return;
     }
     if (auth) {

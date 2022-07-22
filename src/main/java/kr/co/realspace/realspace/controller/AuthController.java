@@ -65,6 +65,17 @@ public class AuthController {
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(),roles));
+    }
+    //여기에 spring security middleware가 jwt를 헤더를 체크하고 ok면 유저정보, 아니면 'unauthorized msg'
+    @GetMapping("/check")
+    public ResponseEntity<?>Check(@RequestHeader HttpHeaders header){
 
+        HttpHeaders headerV = header;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(),roles));
     }
 }
