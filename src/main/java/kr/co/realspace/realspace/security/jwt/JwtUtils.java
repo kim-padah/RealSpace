@@ -1,16 +1,21 @@
 package kr.co.realspace.realspace.security.jwt;
 
 import kr.co.realspace.realspace.security.services.UserDetailsImpl;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
 import io.jsonwebtoken.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.Date;
 @Component
 public class JwtUtils {
@@ -37,14 +42,15 @@ public class JwtUtils {
         return cookie;
     }
 
-    public ResponseCookie getCleanJwtCookie() {
-        ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/auth").build();
-        return cookie;
-    }
 
-    public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-    }
+//    public ResponseCookie getCleanJwtCookie() {
+//        ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/auth").build();
+//        return cookie;
+//    }
+//
+//    public String getUserNameFromJwtToken(String token) {
+//        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+//    }
 
     public boolean validateJwtToken(String authToken) {
         try {
@@ -71,5 +77,31 @@ public class JwtUtils {
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
+    }
+    public String generateTokenByAuthentication(org.springframework.security.core.Authentication authentication){
+        return Jwts.builder()
+                .setSubject(authentication.getName())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
+
+
+//    public Authentication getAuthentication(String accessToken) {
+//        Claims claims = parseClaims(accessToken);
+//
+//        Collection<?extends GrantedAuthority> authorities =
+//
+//
+//        UserDetailsImpl principal = new User(claims.getSubject(),"",);
+//        return new UsernamePasswordAuthenticationToken(principal, "",);
+//    }
+    private Claims parseClaims(String accessToken){
+        try{
+            return Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(accessToken).getBody();
+        }catch(ExpiredJwtException e){
+            return e.getClaims();
+        }
     }
 }

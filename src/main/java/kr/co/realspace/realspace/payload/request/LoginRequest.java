@@ -1,6 +1,7 @@
 package kr.co.realspace.realspace.payload.request;
 
 import lombok.Getter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import javax.validation.constraints.NotBlank;
 
@@ -20,4 +21,7 @@ public class LoginRequest {
         this.password = password;
     }
 
+    public UsernamePasswordAuthenticationToken toAuthentication(){
+        return new UsernamePasswordAuthenticationToken(username, password);
+    }
 }
