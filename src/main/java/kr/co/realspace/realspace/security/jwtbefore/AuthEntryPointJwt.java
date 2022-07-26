@@ -1,4 +1,4 @@
-package kr.co.realspace.realspace.security.jwt;
+package kr.co.realspace.realspace.security.jwtbefore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

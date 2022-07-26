@@ -1,21 +1,16 @@
-package kr.co.realspace.realspace.security.jwt;
+package kr.co.realspace.realspace.security.jwtbefore;
 
 import kr.co.realspace.realspace.security.services.UserDetailsImpl;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
 import io.jsonwebtoken.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
 import java.util.Date;
 @Component
 public class JwtUtils {

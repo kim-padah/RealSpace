@@ -9,7 +9,7 @@ import kr.co.realspace.realspace.security.services.response.UserInfoResponse;
 import kr.co.realspace.realspace.repository.RoleRepository;
 import kr.co.realspace.realspace.repository.UserRepository;
 import kr.co.realspace.realspace.security.SecurityUtil;
-import kr.co.realspace.realspace.security.jwt.JwtUtils;
+import kr.co.realspace.realspace.security.jwtbefore.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceBeforeCodeImpl implements AuthServiceBeforeCode {
     @Autowired
     UserRepository userRepository;
     @Autowired
