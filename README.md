@@ -27,16 +27,18 @@ RealSpace の建築ディーサインをイメージ中心にアップロード�
 
 ## 🛠 기술스택
 
-- Java 11
-- Spring Boot 2.6.9
-- Gradle
-- Spring Security
-- Junit 5
-- Hibernate / SpringJPA
-- MySQL 8.0
-- Redis
-- React.js
-- Redux
+- Typescript
+- Next.js
+- Express(Node.js)
+- MongoDB
+- Graphql
+- recoil
+- emotion
+- BFFに関する知識やサーバーサイド実装経験
+- webpackの構築/運用
+- SEOやクローラーに関する知識
+
+
 
 <br/>
 
