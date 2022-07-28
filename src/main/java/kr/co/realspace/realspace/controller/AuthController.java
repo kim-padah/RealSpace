@@ -7,16 +7,14 @@ import kr.co.realspace.realspace.security.services.response.MessageResponse;
 import kr.co.realspace.realspace.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody MemberRequestDto requestDto) {
         if (authService.checkExistUsername(requestDto)) {
@@ -35,5 +33,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
         return ResponseEntity.ok(authService.login(requestDto));
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<MemberResponseDto> check() {
+        MemberResponseDto myInfoBySecurity = authService.check();
+        return ResponseEntity.ok((myInfoBySecurity));
     }
 }

@@ -18,7 +18,7 @@ public class MemberRequestDto {
     private String password;
     private String email;
 
-    public Member toMember(PasswordEncoder passwordEncoder){
+    public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
@@ -27,7 +27,7 @@ public class MemberRequestDto {
                 .build();
     }
 
-    public UsernamePasswordAuthenticationToken toAuthentication(){
-        return new UsernamePasswordAuthenticationToken(username,password);
+    public UsernamePasswordAuthenticationToken toAuthentication() {
+        return new UsernamePasswordAuthenticationToken(username, password);
     }
 }
