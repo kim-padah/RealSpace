@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../modules/auth';
-import { check } from '../modules/user';
+// import { check } from '../modules/user';
 import AuthForm from '../../components/auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,11 +9,11 @@ const RegisterForm = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { form, auth, authError, user } = useSelector((state) => ({
+  const { form, auth, authError } = useSelector((state) => ({
     form: state.auth.register,
     auth: state.auth.auth,
     authError: state.auth.authError,
-    user: state.user.user,
+    // user: state.user.user,
   }));
 
   const loadingRegister = useSelector((state) => state.loading['auth/REGISTER']);
@@ -27,20 +27,40 @@ const RegisterForm = () => {
       }),
     );
   };
+  const { username, password, passwordConfirm, email, adminCode } = form;
+
   const onSubmit = (e) => {
     e.preventDefault();
-    const { username, password, passwordConfirm, nickname, adminCode } = form;
 
-    if ([username, password, passwordConfirm, nickname].includes('')) {
+    if (Object.keys(error).length === 0)
+      dispatch(register({ username, password, email, adminCode }));
+  };
+
+  useEffect(() => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if ([username, password, passwordConfirm, email].includes('')) {
       setError('please fill the blank');
+      return;
+    }
+    if (username.length < 3) {
+      setError('Username must be more than 3 characters');
+      return;
+    } else {
+      setError('');
+    }
+    if (password.length < 4) {
+      setError('Password must be more than 4 characters');
       return;
     }
     if (password !== passwordConfirm) {
       setError('password confirm not matched');
       return;
     }
-    dispatch(register({ username, password, nickname, adminCode }));
-  };
+    if (!regex.test(email)) {
+      setError('Invalid email format');
+      return;
+    }
+  }, [username, password, passwordConfirm, email]);
 
   useEffect(() => {
     dispatch(initializeForm('register'));
@@ -52,35 +72,30 @@ const RegisterForm = () => {
         setError(authError.response.data.message);
         return;
       }
-      // if (authError.response.data.details[0]) {
-      //   console.log(authError.response.data);
-      //   setError(authError.response.data.details[0].message);
-      //   return;
-      // }
-      if (authError) {
-        console.log(authError.response, '@@@@@@');
-        setError('unknown error!');
+      if (authError.response.status === 400) {
+        setError(authError.response.data.message);
         return;
       }
+      setError('unknown error! please retry');
       return;
     }
     if (auth) {
-      console.log('회원가입성공');
-      console.log(auth);
-      dispatch(check());
+      alert('Welcome to join our site!');
+      navigate('/login');
+      // dispatch(check());
     }
-  }, [auth, authError, dispatch]);
+  }, [auth, authError, dispatch, navigate]);
 
-  useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
-    try {
-      localStorage.setItem('user', JSON.stringify(user));
-    } catch (e) {
-      console.log('localStorage is not working');
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate('/');
+  //   }
+  //   try {
+  //     localStorage.setItem('user', JSON.stringify(user));
+  //   } catch (e) {
+  //     console.log('localStorage is not working');
+  //   }
+  // }, [user, navigate]);
 
   return (
     <AuthForm

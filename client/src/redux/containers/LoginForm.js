@@ -9,9 +9,7 @@ const LoginForm = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { form } = useSelector(({ auth }) => ({
-  //   form: auth.login,
-  // }));
+
   const { form, auth, authError, user } = useSelector((state) => ({
     form: state.auth.login,
     auth: state.auth.auth,

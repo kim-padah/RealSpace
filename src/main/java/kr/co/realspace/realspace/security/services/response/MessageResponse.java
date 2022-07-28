@@ -1,4 +1,4 @@
-package kr.co.realspace.realspace.payload.response;
+package kr.co.realspace.realspace.security.services.response;
 
 public class MessageResponse {
     private String message;
