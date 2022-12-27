@@ -2,3 +2,4 @@
 /node_modules
 # db info, jwt password
 .env
+/database
