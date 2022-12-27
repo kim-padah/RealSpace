@@ -1,36 +1,43 @@
-require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
-const mongoose = require('mongoose');
+const mysql = require('mysql2');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
-const rootRouter = require('./routers');
-const jwtAuthMiddleware = require('./lib/jwtAuthMiddleware');
+// const rootRouter = require('./routers');
+// const jwtAuthMiddleware = require('./lib/jwtAuthMiddleware');
 
-const { PORT, MONGO_URI } = process.env;
+require('dotenv').config({
+  path: '.env',
+});
 
 const app = express();
 
 app.use(morgan('dev')); //logger
 app.use(express.json()); //built in body-parser:data parsing to json
 app.use(cookieParser());
-app.use(jwtAuthMiddleware);
+// app.use(jwtAuthMiddleware);
 app.use(cors());
 
-//db
-mongoose
-  .connect(MONGO_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((e) => {
-    console.error(e);
-  });
-//Routers
-app.use('/', rootRouter);
+const connection = mysql.createConnection({
+  host: process.env.HOST,
+  port: process.env.PORT,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+});
 
-const port = PORT || 4000;
-app.listen(port, () => {
-  console.log('Listening on port 3001');
+connection.connect((err) => {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  }
+  console.log('connected as id' + connection.threadId);
+});
+
+// //Routers
+// app.use('/', rootRouter);
+
+app.listen(process.env.PORT, () => {
+  console.log(`Listening on port ${process.env.PORT}`);
 });
