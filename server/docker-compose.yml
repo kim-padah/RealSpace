@@ -1,12 +1,14 @@
+version: '2'
+
 services:
   vacation-db:
     image: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 'root1234'
-      MYSQL_DATABASE: 'testdb'
-      MYSQL_USER: 'testuser'
-      MYSQL_PASSWORD: 'testuser'
+      MYSQL_ROOT_PASSWORD: "root1234"
+      MYSQL_DATABASE: "testdb"
+      MYSQL_USER: "testuser"
+      MYSQL_PASSWORD: "testuser"
       TZ: Asia/Seoul
     command:
       - --character-set-server=utf8mb4
@@ -16,4 +18,4 @@ services:
       - ./database/datadir/:/var/lib/mysql
     platform: linux/x86_64
     ports:
-      - 3306:3306
+      - 3305:3306
